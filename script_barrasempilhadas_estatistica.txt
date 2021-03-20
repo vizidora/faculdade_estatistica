@@ -1,0 +1,164 @@
+library(dplyr)   # For data manipulation
+library(ggplot2) # For data visualization
+theme_set(theme_minimal())
+
+title <- "Sobrevivencia x Classe"
+df <- data.frame(
+  Sobrevivencia = rep(c("Nao Sobreviveu", "Sobreviveu"), each = 4),
+  classe = rep(c("Tripulacao", "Primeira Classe", "Segunda Classe", "Terceira classe"), 2),
+  qtd = c(673, 122, 167, 528, 212, 202, 118, 178)
+  )
+
+head(df)
+
+p <- ggplot(df, aes(x = classe, y = qtd))+geom_col(aes(fill = Sobrevivencia), width = 0.7)
+p
+
+library(dplyr)
+ df2 <- df %>%
+  group_by(classe) %>%
+  arrange(classe, desc(Sobrevivencia)) %>%
+  mutate('percent'= round(qtd/sum(qtd)*100, digits = 1),lab_ypos = cumsum(qtd) - 0.5 * qtd) 
+df2
+# Create stacked bar graphs with labels
+p <- ggplot(data = df2, aes(x = classe, y = qtd))+
+geom_col(aes(fill = Sobrevivencia), width = 0.7)+
+geom_text(aes(y = lab_ypos, label = (paste(qtd,'
+', percent,'%')), group =Sobrevivencia), color = "white")+
+#create title
+labs(title = "Sobreviventes x Classe")
+p
+
+p+scale_fill_manual(values = c("Magenta3", "Plum3"))
+
+#atualizado
+
+llibrary(ggplot2) # For data visualization
+library(dplyr)   # For data manipulation
+theme_set(theme_minimal())
+
+df2 <- data.frame(
+  Sobrevivencia = rep(paste(table(Titanic$Sobreviveu)), each = 4),
+  classe = rep(paste(Titanic$Classe), 2),
+  qtd = as.numeric(paste(table(Titanic$Sobreviveu)))
+  )
+  
+  head(df2)
+  
+  str(df2$qtd)
+  
+  p <- ggplot(df, aes(x = classe, y = qtd))+geom_col(aes(fill = Sobrevivencia), width = 0.7)
+  p
+  
+  library(dplyr)
+  df2 <- df %>%
+    group_by(classe) %>%
+    arrange(classe, desc(Sobrevivencia)) %>%
+    mutate('percent'= round(qtd/sum(qtd)*100, digits = 1),lab_ypos = cumsum(qtd) - 0.5 * qtd) 
+  
+  p <- ggplot(data = df2, aes(x = classe, y = qtd))+
+    geom_col(aes(fill = Sobrevivencia), width = 0.7)+
+    geom_text(aes(y = lab_ypos, label = (paste(qtd,'
+', percent,'%')), group =Sobrevivencia), color = "white")+
+    #create title
+    labs(title = "Sobreviventes x Classe")+
+    scale_fill_manual(values = c("Magenta3", "Plum3"))
+  p
+  
+  
+ plotly::ggplotly(p)
+ 
+ ##
+ 
+ library(ggplot2) # For data visualization
+library(dplyr)   # For data manipulation
+theme_set(theme_minimal())
+
+df2 <- data.frame(
+  Sobrevivencia = rep(paste(table(Titanic$Sobreviveu)), each = 4),
+  classe = rep(paste(Titanic$Classe), 2),
+  qtd = as.numeric(paste(table(Titanic$Sobreviveu)))
+  )
+  
+  head(df2)
+  
+  str(df2$qtd)
+  
+  p <- ggplot(df, aes(x = classe, y = qtd))+geom_col(aes(fill = Sobrevivencia), width = 0.7)
+  p
+  
+  library(dplyr)
+  df3 <- df2 %>%
+    group_by(classe) %>%
+    arrange(classe, desc(Sobrevivencia)) %>%
+    mutate('percent'= round(qtd/sum(qtd)*100, digits = 1),lab_ypos = cumsum(qtd) - 0.5 * qtd) 
+  
+  str(df3$percent)
+  str(df3$lab_ypos)
+  
+  p <- ggplot(data = df3, aes(x = classe, y = qtd))+
+    geom_col(aes(fill = Sobrevivencia), width = 0.7)+
+    labs(title = "Sobreviventes x Classe")+
+    geom_text(y=df3$lab_ypos,label = df3$qtd, group =df3$Sobrevivencia, color = "white")+
+    #create title
+    scale_fill_manual(values = c("Magenta3", "Plum3"))
+  p
+  
+  plotly::ggplotly(p)
+  
+  
+ ##
+
+load("C:/Users/Knalha/Desktop/Base_de_dados-master/Titanic.RData")
+
+library(ggplot2) # For data visualization
+library(dplyr)   # For data manipulation
+theme_set(theme_minimal())
+
+df2 <- data.frame(
+  Sobrevivencia = rep(paste(table(Titanic$Sobreviveu)), each = 4),
+  classe = rep(paste(Titanic$Classe), 2),
+  qtd = as.numeric(paste(table(Titanic$Sobreviveu)))
+  )
+  
+  head(df2)
+  
+  str(df2$qtd)
+  
+  p <- ggplot(df2, aes(x = classe, y = qtd))+geom_col(aes(fill = Sobrevivencia), width = 0.7)
+  p
+  
+  library(dplyr)
+  df3 <- df2 %>%
+    group_by(classe) %>%
+    arrange(classe, desc(Sobrevivencia)) %>%
+    mutate("percent"= round(qtd/sum(qtd)*100, digits = 1),lab_ypos = cumsum(qtd) - 0.5 * qtd) 
+  
+  str(df3$percent)
+  str(df3$lab_ypos)
+  
+  p <- ggplot(data = df3, aes(x = classe, y = qtd))+
+    geom_col(aes(fill = Sobrevivencia), width = 0.7)+
+    labs(title = "Sobreviventes x Classe")+
+    geom_text(y=df3$lab_ypos,label = (paste(df3$qtd,'
+', df3$percent,'%')), group =df3$Sobrevivencia, color = "white")+
+    #create title
+    scale_fill_manual(values = c("Magenta3", "Plum3"))
+  p
+  
+  plotly::ggplotly(p)
+  
+  
+  
+  
+  
+  
+  
+  
+   
+  
+  
+  
+  
+  
+  
